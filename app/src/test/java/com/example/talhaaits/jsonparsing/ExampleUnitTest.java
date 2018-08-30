@@ -17,27 +17,28 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         //assertEquals(4, 2 + 2);
-        String className = "Mentorship";
+        String className = "FilterResponse";
 
-        String json = mentorship;
+        String json = FilterResponse;
 
         printJsonObject(className, json);
 
     }
+
     //@Test
     public void printJsonObject(String className, String json) {
 
         System.out.print(json);
 
         String str = "\n\n@JsonSerializable()\n" +
-                "class "+className+" extends Object with _$"+className+"SerializerMixin{\n";
+                "class " + className + " extends Object with _$" + className + "SerializerMixin{\n";
         System.out.print(str);
         try {
-            JSONObject jsonObject  = new JSONObject(json);
+            JSONObject jsonObject = new JSONObject(json);
             for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
                 Object key = it.next();
                 //based on you key types
-                String keyStr = (String)key;
+                String keyStr = (String) key;
                 Object keyValue = null;
                 try {
                     keyValue = jsonObject.get(keyStr);
@@ -45,38 +46,40 @@ public class ExampleUnitTest {
                     e.printStackTrace();
                 }
                 //Print key and value
-                System.out.print("@JsonKey(name: '"+keyStr+"')\n");
-                if(keyValue instanceof Integer){
-                    System.out.println("int "+ toCamelCase(keyStr)+";");
-                }else if(keyValue instanceof String){
-                    System.out.println("String "+ toCamelCase(keyStr)+";");
-                }else if(keyValue instanceof Boolean){
-                    System.out.println("bool "+ toCamelCase(keyStr)+";");
-                }else if(keyValue instanceof ArrayList){
-                    System.out.println("List<"+getClassName(keyStr)+"> "+ toCamelCase(keyStr)+"List;");
-                }else if(keyValue instanceof Object){
-                    printJsonObject( getClassName(keyStr) , keyValue.toString());
+                System.out.print("@JsonKey(name: '" + keyStr + "')\n");
+                if (keyValue instanceof Integer) {
+                    System.out.println("int " + toCamelCase(keyStr) + ";");
+                } else if (keyValue instanceof String) {
+                    System.out.println("String " + toCamelCase(keyStr) + ";");
+                } else if (keyValue instanceof Boolean) {
+                    System.out.println("bool " + toCamelCase(keyStr) + ";");
+                } else if (keyValue instanceof ArrayList) {
+                    System.out.println("List<" + getClassName(keyStr) + "> " + toCamelCase(keyStr) + "List;");
+                } else if (keyValue != null) {
+                    //printJsonObject( getClassName(keyStr) , keyValue.toString());
+                    System.out.println("Object " + toCamelCase(keyStr) + ";");
                 }
                 //System.out.println("key: "+ keyStr + " value: " + keyValue);
 
                 //for nested objects iteration if required
                 //if (keyvalue instanceof JSONObject)
-                    //printJsonObject((JSONObject)keyvalue);
+                //printJsonObject((JSONObject)keyvalue);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String s = MessageFormat.format("\n factory {0}.fromJson(Map<String, dynamic> json) => _${1}FromJson(json);\n}\n\n",className,className);
+        System.out.print(className+"();");
+        String s = MessageFormat.format("\nfactory {0}.fromJson(Map<String, dynamic> json) => _${1}FromJson(json);\n}\n\n", className, className);
         System.out.print(s);
 
     }
 
-    static String toCamelCase(String s){
+    static String toCamelCase(String s) {
         String[] parts = s.split("_");
-        if(parts.length == 1)
+        if (parts.length == 1)
             return s;
         String camelCaseString = "";
-        for (String part : parts){
+        for (String part : parts) {
             camelCaseString = camelCaseString + toProperCase(part);
         }
         camelCaseString = toFirstCharLowerCase(camelCaseString);
@@ -98,7 +101,7 @@ public class ExampleUnitTest {
                 s.substring(1);
     }
 
-    static String getClassName(String className){
+    static String getClassName(String className) {
         className = toCamelCase(className);
         className = toFirstCharUpperCase(className);
         return className;
@@ -142,6 +145,9 @@ public class ExampleUnitTest {
 
     String item = " {\n" +
             "    \"name\": \"string\",\n" +
+            "    \"short_code\": \"string\",\n" +
+            "    \"created_at\": \"$now\",\n" +
+            "    \"updated_at\": \"$now\",\n" +
             "    \"id\": 0\n" +
             "  }";
 
@@ -198,10 +204,103 @@ public class ExampleUnitTest {
             "}";
 
     String mentorship = "{\n" +
+            "  \"created_at\": {},\n" +
+            "  \"updated_at\": {},\n" +
             "  \"id\": 0,\n" +
             "  \"userId\": 0,\n" +
             "  \"mentoringSubjectId\": 0\n" +
             "}";
+
+    String mentoringSubject = " {\n" +
+            "    \"name\": \"string\",\n" +
+            "    \"created_at\": {},\n" +
+            "    \"updated_at\": {},\n" +
+            "    \"id\": 0\n" +
+            "  }";
+    String tutor = " {\n" +
+            "            \"short_bio\": \"test ggh\",\n" +
+            "            \"is_admin\": false,\n" +
+            "            \"is_mentor\": false,\n" +
+            "            \"phoneno\": 09,\n" +
+            "            \"rating\": 4,\n" +
+            "            \"rating_ppl_count\": 4,\n" +
+            "            \"total_selling_amount\": 4,\n" +
+            "            \"total_buying_amount\": 4,\n" +
+            "            \"address\": \"test ggh\",\n" +
+            "            \"image_url\": \"test ggh\",\n" +
+            "            \"tutoring_bio\": \"test ggh\",\n" +
+            "            \"mentoring_bio\": \"test ggh\",\n" +
+            "            \"realm\": \"1234567\",\n" +
+            "            \"username\": \"talhaaits\",\n" +
+            "            \"email\": \"talhaaits@gmail.com\",\n" +
+            "            \"emailVerified\": false,\n" +
+            "            \"id\": 1,\n" +
+            "            \"universityId\": 2,\n" +
+            "            \"departmentId\": 4,\n" +
+            "            \"tutoringSubjects\": \"test ggh\"}";
+
+    String ResponseTutors = "{\"msg\": \"Found Tutors & Tutoring Subjects\",\n" +
+            "    \"tutors\": \"test ggh\"}";
+
+    String filter = "{\"include\":\"mentoringSubject\"}";
+
+    String mentor = "{\"mentorships\": 2 }";
+
+    String ResponseMentors = "{\"mentors\": \"test ggh\"}";
+
+    String Order = "{\n" +
+            "  \"is_book_sold\": false,\n" +
+            "  \"is_note_sold\": false,\n" +
+            "  \"is_order_complete\": false,\n" +
+            "  \"transaction_date\": \"$now\",\n" +
+            "  \"created_at\": \"$now\",\n" +
+            "  \"updated_at\": \"$now\",\n" +
+            "  \"id\": 0,\n" +
+            "  \"buyerId\": 0,\n" +
+            "  \"bookId\": 0,\n" +
+            "  \"userId\": 0,\n" +
+            "  \"noteId\": 0\n" +
+            "}";
+
+    String Favorite = "{\n" +
+            "  \"created_at\": \"$now\",\n" +
+            "  \"updated_at\": \"$now\",\n" +
+            "  \"id\": 0,\n" +
+            "  \"userId\": 0,\n" +
+            "  \"tutor_user_id\": 0,\n" +
+            "  \"bookId\": 0,\n" +
+            "  \"noteId\": 0\n" +
+            "}";
+
+
+    String filterTest = "{\"include\":[{\"relation\":\"orders\",\"scope\":{\"where\":{\"buyerId\":2},\"limit\":1}},{\"relation\":\"user\",\"scope\":{\"include\":[\"university\",\"department\"]}}]}";
+    String BookInformation = "{\"orders\":\"\", \"user\": \"\"}";
+    String NoteInformation = "{\"orders\":\"\", \"user\": \"\"}";
+
+    String UserInformation = "{\"university\":\"\",\"department\":\"\"}";
+    String FacebookResponse = "{\"picture\":{\"data\":{\"height\":200,\"is_silhouette\":false,\"url\":\"https:\\/\\/platform-lookaside.fbsbx.com\\/platform\\/profilepic\\/?asid=682658515420999&height=200&width=200&ext=1536129760&hash=AeQivCyJZEiQHkAu\",\"width\":200}},\"name\":\"Fatema Tuzzohura Jannet Riya\",\"first_name\":\"Fatema\",\"last_name\":\"Jannet Riya\",\"email\":\"aitsmotog\\u0040gmail.com\",\"id\":\"682658515420999\"}";
+    String Picture = "{\"data\":{\"height\":200,\"is_silhouette\":false,\"url\":\"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=682658515420999&height=200&width=200&ext=1536129760&hash=AeQivCyJZEiQHkAu\",\"width\":200}}";
+    String Data = "{\"height\":200,\"is_silhouette\":false,\"url\":\"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=682658515420999&height=200&width=200&ext=1536129760&hash=AeQivCyJZEiQHkAu\",\"width\":200}";
+    String OrderHistoryResponse = "{\"msg\":\"f\",\"items\":\"f\",\"total_selling_amount\":0, }";
+
+    String AllCount = "{booksCount: 2, notesCount: 19, tutorsCount: 3, mentorsCount: 2}";
+
+    String SearchResponse = "{\"msg\":\"f\"}";
+    String FilterResponse = "{\"books\":\"f\"}";
+    String FreeItemsResponse = "{\"id\":0}";
+
+
 }
+
 //flutter packages pub run build_runner build
+
+
+
+
+
+
+
+
+
+
 
